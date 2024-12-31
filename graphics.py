@@ -59,18 +59,23 @@ class Cell ( ):
         self._x2 = x2
         self._y1 = y1
         self._y2 = y2
-        if self.has_left_wall:
-            line = Line(Point(x1, y1), Point(x1, y2))
-            self._win.draw_line(line)
-        if self.has_top_wall:
-            line = Line(Point(x1, y1), Point(x2, y1))
-            self._win.draw_line(line)
-        if self.has_right_wall:
-            line = Line(Point(x2, y1), Point(x2, y2))
-            self._win.draw_line(line)
-        if self.has_bottom_wall:
-            line = Line(Point(x1, y2), Point(x2, y2))
-            self._win.draw_line(line)
+        color="black" if self.has_left_wall else "white"
+    # if self.has_left_wall:
+        line = Line(Point(x1, y1), Point(x1, y2))
+        self._win.draw_line(line, color)
+    # if self.has_top_wall:
+        color="black" if self.has_top_wall else "white"
+
+        line = Line(Point(x1, y1), Point(x2, y1))
+        self._win.draw_line(line, color)
+    # if self.has_right_wall:
+        color="black" if self.has_right_wall else "white"
+        line = Line(Point(x2, y1), Point(x2, y2))
+        self._win.draw_line(line, color)
+    # if self.has_bottom_wall:
+        color="black" if self.has_bottom_wall else "white"
+        line = Line(Point(x1, y2), Point(x2, y2))
+        self._win.draw_line(line, color)
 
     def draw_move(self, to_cell, undo=False):
         if undo:
@@ -83,51 +88,51 @@ class Cell ( ):
         self._win.draw_line(line, color)
 
 
-class Maize:
-    def __init__(
-        self,
-        x1,
-        y1,
-        num_rows,
-        num_cols,
-        cell_size_x,
-        cell_size_y,
-        win,
-    ):
-        self._x1 = x1
-        self._y1 = y1
-        self._num_rows = num_rows
-        self._num_cols = num_cols
-        self._cell_size_x = cell_size_x
-        self._cell_size_y = cell_size_y
-        self._win = win
-        self._cells = self._create_cells()
-        for i in range(self._num_rows):
-            row = []
-            for j in range(self._num_cols):
-                cell = Cell(self._win)
-                self._draw_cell(i, j)
-    def _create_cells(self):
-        cells = []
-        for i in range(self._num_rows):
-            row = []
-            for j in range(self._num_cols):
-                cell = Cell(self._win)
-                row.append(cell)
-            cells.append(row)
+# class Maize:
+#     def __init__(
+#         self,
+#         x1,
+#         y1,
+#         num_rows,
+#         num_cols,
+#         cell_size_x,
+#         cell_size_y,
+#         win,
+#     ):
+#         self._x1 = x1
+#         self._y1 = y1
+#         self._num_rows = num_rows
+#         self._num_cols = num_cols
+#         self._cell_size_x = cell_size_x
+#         self._cell_size_y = cell_size_y
+#         self._win = win
+#         self._cells = self._create_cells()
+#         for i in range(self._num_rows):
+#             row = []
+#             for j in range(self._num_cols):
+#                 cell = Cell(self._win)
+#                 self._draw_cell(i, j)
+#     def _create_cells(self):
+#         cells = []
+#         for i in range(self._num_rows):
+#             row = []
+#             for j in range(self._num_cols):
+#                 cell = Cell(self._win)
+#                 row.append(cell)
+#             cells.append(row)
 
 
 
 
-        return cells
-    def _draw_cell(self, i, j):
-        x1 = self._x1 + j * self._cell_size_x
-        y1 = self._y1 + i * self._cell_size_y
-        x2 = x1 + self._cell_size_x
-        y2 = y1 + self._cell_size_y
-        self._cells[i][j].draw(x1, y1, x2, y2)
-    def _animate(self):
-        while True:
-            self._win.redraw()
-            time.sleep(0.4)        
+#         return cells
+#     def _draw_cell(self, i, j):
+#         x1 = self._x1 + j * self._cell_size_x
+#         y1 = self._y1 + i * self._cell_size_y
+#         x2 = x1 + self._cell_size_x
+#         y2 = y1 + self._cell_size_y
+#         self._cells[i][j].draw(x1, y1, x2, y2)
+#     def _animate(self):
+#         while True:
+#             self._win.redraw()
+#             time.sleep(0.4)        
         
