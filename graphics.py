@@ -37,9 +37,9 @@ class Line:
         self.p2 = p2
 
     def draw(self, canvas, fill_color="black"):
-        canvas.create_line(self.p1.x, self.p1.y, self.p2.x, self.p2.y, fill=fill_color, width=2)
+        canvas.create_line(self.p1.x, self.p1.y, self.p2.x, self.p2.y, fill=fill_color, width=2,)
 class Cell ( ):
-    def __init__(self, win):
+    def __init__(self, win,visited = False):
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
@@ -49,6 +49,8 @@ class Cell ( ):
         self._y1 = None
         self._y2 = None
         self._win = win
+        self.visited = visited
+        
 
 
     def draw(self, x1, y1, x2, y2):

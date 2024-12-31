@@ -17,7 +17,7 @@ def main():
     maze._break_entrance_and_exit()
     win.wait_for_close()
 
-
+    
 
 
     
