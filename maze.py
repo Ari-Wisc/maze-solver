@@ -32,6 +32,10 @@ class Maze:
         self._reset_cells_visited()
 
 
+
+
+
+
     def _create_cells(self):
         for i in range(self._num_cols):
             col_cells = []
@@ -62,7 +66,7 @@ class Maze:
         if self._win is None:
             return
         self._win.redraw()
-        time.sleep(0.005)
+        time.sleep(0.03)
 
     def _break_walls_r(self, i, j):
         self._cells[i][j].visited = True
@@ -117,7 +121,86 @@ class Maze:
         for i in range(self._num_cols):
             for j in range(self._num_rows):
                 self._cells[i][j].visited = False
-                
 
-            
+    def solve(self):
+        return self.solve_r(0, 0)
+    
+    # def solve_r(self, i, j):
+    #     self._animate()
+    #     self._cells[i][j].visited = True
+    #     if i == self._num_cols - 1 and j == self._num_rows - 1:
+    #         return True
+        
 
+    # # right 
+    #     if i < self._num_cols - 1 and not self._cells[i][j].has_right_wall and not self._cells[i + 1][j].visited:
+    #         if self.solve_r(i + 1, j):
+    #             self._cells[i][j].draw_move(self._cells[i + 1][j])
+    #             return self.solve_r(i + 1, j)
+    #     else:
+    #             self._cells[i][j].draw_move(self._cells[i + 1][j],True)
+
+    # # left
+    #     if i > 0 and not self._cells[i][j].has_left_wall and not self._cells[i - 1][j].visited:
+    #         if self.solve_r(i - 1, j):
+    #             self._cells[i][j].draw_move(self._cells[i - 1][j])
+    #             return self.solve_r(i - 1, j)
+    #     else:
+    #         self._cells[i][j].draw_move(self._cells[i - 1][j],True)
+    # # down
+    #     if j < self._num_rows - 1 and not self._cells[i][j].has_bottom_wall and not self._cells[i][j + 1].visited:
+    #         if self.solve_r(i, j + 1):
+    #             self._cells[i][j].draw_move(self._cells[i][j + 1])
+    #             return self.solve_r(i, j + 1)
+    #     else:
+    #         self._cells[i][j].draw_move(self._cells[i][j + 1],True)
+    # # up            
+    #     if j > 0 and not self._cells[i][j].has_top_wall and not self._cells[i][j - 1].visited:
+    #         if self.solve_r(i, j - 1):
+    #             self._cells[i][j].draw_move(self._cells[i][j - 1])
+    #             return self.solve_r(i, j - 1)
+    #     else:
+    #         self._cells[i][j].draw_move(self._cells[i][j - 1],True)
+    #     return False
+    
+
+    def solve_r(self, i, j):
+        self._animate()  # Update the GUI to visualize the process
+        self._cells[i][j].visited = True
+
+        # Check if the current cell is the goal (bottom-right corner)
+        if i == self._num_cols - 1 and j == self._num_rows - 1:
+            return True
+
+        # Define movement directions: right, left, down, up
+        directions = [
+            (1, 0),  # Right
+            (-1, 0),  # Left
+            (0, 1),  # Down
+            (0, -1),  # Up
+        ]
+
+        for di, dj in directions:
+            ni, nj = i + di, j + dj
+
+            # Check bounds and if the next cell can be visited
+            if 0 <= ni < self._num_cols and 0 <= nj < self._num_rows:
+                if not self._cells[ni][nj].visited:
+                    # Check walls between the current cell and the next cell
+                    if (di == 1 and not self._cells[i][j].has_right_wall) or \
+                    (di == -1 and not self._cells[i][j].has_left_wall) or \
+                    (dj == 1 and not self._cells[i][j].has_bottom_wall) or \
+                    (dj == -1 and not self._cells[i][j].has_top_wall):
+                        
+                        # Recursive call to solve from the next cell
+                        self._cells[i][j].draw_move(self._cells[ni][nj])  # Draw the solution path
+
+                        if self.solve_r(ni, nj):
+                            return True
+                        else:
+                            # If it fails, mark the backtrack path
+                            self._cells[i][j].draw_move(self._cells[ni][nj], True)
+
+        # If no solution is found, return False
+        return False
+    
