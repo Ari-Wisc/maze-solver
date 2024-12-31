@@ -30,6 +30,7 @@ class Maze:
 
         self._break_walls_r(0, 0)
         self._reset_cells_visited()
+        self._break_entrance_and_exit()
 
 
 
